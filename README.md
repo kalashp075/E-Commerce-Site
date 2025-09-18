@@ -14,6 +14,9 @@ This is a full-featured e-commerce web application built with **Django** as the 
 - **Frontend:** HTML, CSS (custom templates)
 - **Other:** Django’s built-in authentication, email, and session management
 
+  
+<img width="1680" height="1050" alt="Screenshot 2025-09-18 at 7 03 15 PM" src="https://github.com/user-attachments/assets/ddad657b-bb55-4927-bd62-fd90b165affd" />
+
 ## Getting Started
 1. Clone the repository
 2. Install dependencies:
