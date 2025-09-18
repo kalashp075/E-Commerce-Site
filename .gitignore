@@ -1,0 +1,38 @@
+# Python virtual environments
+venv/
+.env/
+env/
+
+# Python bytecode
+__pycache__/
+*.py[cod]
+
+# Django stuff
+db.sqlite3
+media/
+static/
+
+# VS Code settings
+.vscode/
+
+# MacOS system files
+.DS_Store
+
+# Logs
+*.log
+
+# Test and coverage
+.coverage
+htmlcov/
+*.cover
+coverage.xml
+nosetests.xml
+test_users.txt
+
+# Other
+*.bak
+*.swp
+
+myproject/settings.py
+
+myapp/migrations

@@ -1,0 +1,456 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Aleo:ital,wght@0,100..900;1,100..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'home_page.css' %}">
+    <style>
+        #disabled_button{
+            background-color: rgb(232, 231, 229);
+         
+            color: #343a40;
+        }
+
+        body{
+            font-family: "Montserrat", sans-serif;
+            background-color: white;
+            color: #343a40;
+        }
+
+        .card {
+            overflow: hidden;
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            border: none;
+            box-shadow: none;
+        }
+        
+        .card:hover {
+            border: 1.5px solid rgb(232, 232, 232);
+            transform: scale(0.99); /* Pinch in everything */
+        }
+        
+        .card-body {
+            transition: transform 0.2s ease;
+        }
+        
+        .card:hover .card-body {
+            transform: scale(1); /* Keep card-body at normal size when hovering */
+        }
+        
+        .card img {
+            transition: transform 0.6s ease; /* Smooth animation for image */
+            transform-origin: center center;
+        }
+        
+        .card:hover img {
+            animation: pinch-in-out 0.6s ease forwards;
+        }
+        
+        /* Keyframes for image animation */
+        @keyframes pinch-in-out {
+            0% {
+                transform: scale(1); /* Original size */
+            }
+            50% {
+                transform: scale(0.93); /* Pinch in more */
+            }
+            100% {
+                transform: scale(1); /* Pinch out slightly */
+            }
+        }
+
+        .add-to-cart{
+            background-color: white;
+            font-size:100;
+            color: #343a40;
+            border: 1.5px solid rgb(232, 232, 232);
+        }
+        
+        .add-to-cart:hover{
+            background-color: rgb(252, 249, 246);
+            border: 1.5px solid rgb(188, 143, 70);
+            color: #343a40;
+            
+        }
+
+        .filter-button{
+            border: 1px solid rgb(232, 232, 232);
+            background-color: white;
+            color: #343a40;
+            width: 100px;
+        }
+        .filter-button:hover{
+            background-color: rgb(252, 249, 246);
+            color: #343a40;
+            border: 1px solid rgb(188, 143, 70);
+
+        }
+
+        .clear-button{
+            background: rgb(242, 228, 137);
+            border: rgb(242, 228, 137);
+        }
+
+        .apply_filter_button{
+            background: rgb(65, 129, 70);
+            color: white;
+        }
+        
+        .dropdown-item:hover{
+            background-color: white;
+        }
+
+        .profile-option:hover{
+            font-weight: bold;
+        }
+
+        .logout-option:hover{
+            font-weight: bold;
+        }
+
+        /* Success */
+        .notification.success {
+            background-color:rgb(249, 242, 235); 
+            border:1px solid rgb(171, 129, 62);
+            color: #343a40;
+            font-weight:300;
+        }
+
+        .carousel-inner {
+            height: 90vh; 
+            cursor:pointer;
+        }
+        
+        .carousel-item img {
+            width: 100%;
+            object-fit:contain; /* Ensures image covers the container without distortion */
+        }
+
+        .filter-inputs:focus {
+            outline: none !important;  /* Removes default outline */
+            box-shadow: none !important; /* Removes glow effect */
+            border-color: rgb(171, 129, 62); !important; 
+            background-color: rgb(249, 242, 235);
+        }
+
+        .gender-badge {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            color: white; 
+            padding: 2px 6px;
+            border-radius: 25%;
+            font-weight: bold;
+            font-size: 12px; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 20px; 
+            height: 20px; 
+            border: none
+        }
+
+        .gender-badge.female {
+            color: #e83e8c; 
+        
+        }
+
+        .gender-badge.male {
+            color: #343a40; 
+
+        }
+
+        .card-price{
+            font-size: 17px;
+        }
+
+        .card-text{
+            font-size: 17px;
+        }
+
+        .card-title{
+            font-size: 15px;
+        }
+
+        .product-card-link {
+            text-decoration: none; 
+            color: inherit;  /* Inherit the color from parent */
+        }
+
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding-left: 100px;
+            padding-right: 100px;
+            height: 90px;
+            margin-bottom: 1px;
+          }
+        
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#" class="bg-light">
+                <img src="{% static 'images/main-logo.png' %}" alt="Logo" style="height: 40px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="{% url 'home_page' %}">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+                </ul>
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'view_cart' %}"><i class="bi bi-cart"></i> Cart</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" 
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="bi bi-person-circle"></i> Profile
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                            <li><a class="dropdown-item profile-option" href="{% url 'profile' %}">View Profile</a></li>
+                            <li>
+                                <a class="dropdown-item text-danger logout-option" href="{% url 'logout_view' %}" data-bs-toggle="modal" data-bs-target="#logoutModal">Log Out</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Logout Confirmation Modal -->
+    <div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Are you sure you want to log out?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <a href="{% url 'logout_view' %}" class="btn btn-danger">Log Out</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Carousel -->
+    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="false">
+        <div class="carousel-inner" onclick="scrollToProducts()">
+            <div class="carousel-item active">
+                <img src="{% static 'images/newslider3.png' %}" class="d-block w-100" alt="Image1">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'images/newslider4.png' %}" class="d-block w-100" alt="Image4">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'images/newslider1.png' %}" class="d-block w-100" alt="Image2">
+            </div>
+
+            <div class="carousel-item">
+                <img src="{% static 'images/newslider2.png' %}" class="d-block w-100" alt="Image3">
+            </div>
+
+            
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+
+    <!-- Sidebar (Filter Panel) -->
+    <div id="sidebar" class="p-4">
+        <h5>Filter Products</h5>
+        <form method="GET" action="{% url 'home_page' %}">
+            <!-- Brand Filter -->
+            <div class="mb-3">
+                <label for="brand" class="form-label">Brand</label>
+                <select class="form-select filter-inputs" name="brand">
+                    <option value="">All Products</option>
+                    <option value="Casio" {% if request.GET.brand == 'Casio' %}selected{% endif %}>Casio</option>
+                    <option value="Titan" {% if request.GET.brand == 'Titan' %}selected{% endif %}>Titan</option>
+                    <option value="Panerai" {% if request.GET.brand == 'Panerai' %}selected{% endif %}>Panerai</option>
+                </select>
+            </div>
+
+            <!-- Gender Filter -->
+            <div class="mb-3">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select filter-inputs" name="gender">
+                    <option value="">Both</option>
+                    <option value="Men" {% if request.GET.gender == 'Men' %}selected{% endif %}>Men</option>
+                    <option value="Women" {% if request.GET.gender == 'Women' %}selected{% endif %}>Women</option>
+                </select>
+            </div>
+
+            <!-- Price Range Inputs -->
+            <div class="mb-3">
+                <label for="min_price" class="form-label">Min Price</label>
+                <input type="number" class="form-control filter-inputs" id="min_price" name="min_price" min="0" max="1000" step="1" value="" placeholder="Enter min price" oninput="updateFilterValues()">
+            </div>
+
+            <div class="mb-3">
+                <label for="max_price" class="form-label">Max Price</label>
+                <input type="number" class="form-control  filter-inputs" id="max_price" name="max_price" min="0" max="100000" step="1" value="" placeholder="Enter max price" oninput="updateFilterValues()">
+            </div>
+
+            <!-- Clear Filter Button -->
+            <button type="button" class="btn btn-warning mt-2 clear-button" onclick="clearFilter()">Clear Filter</button>
+
+            <div class="mt-3">
+                <button type="submit" class="btn btn-success apply_filter_button">Apply Filters</button>
+            </div>
+
+        </form>
+        <button class="btn btn-secondary mt-3" id="closeSidebar">Close</button>
+    </div>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- Product Overview Section -->
+    <div id="products" class="container mt-5">
+        <h2>Our Products <button id="openSidebar" class="btn btn-primary filter-button" style="float:right;"> Filter </button></h2> <br><br>
+        <div class="row g-5">
+            <!-- Product Cards -->
+            {% for product in products %}
+            <div class="col-md-4 product-card">
+                <div class="card product-card-item" data-product-id="{{ product.id }}" onclick="redirectToProductDetail({{ product.id }})">
+                  <!-- Gender Badge -->
+                  <div class="gender-badge {% if product.gender|lower == 'women' %}female{% else %}male{% endif %}">
+                    {% if product.gender|lower == 'women' %}
+                      F
+                    {% else %}
+                      M
+                    {% endif %}
+                  </div>
+                  <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                  <div class="card-body">
+                    <h6 class="card-title"><strong>{{ product.name }}</strong></h6>
+                    <p class="card-text">{{ product.description|truncatewords:20 }}</p>
+                    <p class="card-price">${{ product.price }}</p>
+                    {% if product.available_quantity < 5 %}
+                        {% if product.available_quantity > 0 %}
+                            <p class="small text-warning card-text">Only {{ product.available_quantity }} left</p>
+                        {% else %}
+                            <p class="small text-danger card-text">Out of Stock</p>
+                        {% endif %}
+                    {% endif %}
+                    {% if product.available_quantity == 0 %}
+                        <button class="btn btn-primary add-to-cart" id="disabled_button" onclick="event.stopPropagation();">Will be available soon</button>
+                    {% else %}
+                        <button class="btn btn-primary add-to-cart" data-product-id="{{ product.id }}" onclick="event.stopPropagation();">Add to Cart</button>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              
+            {% endfor %}
+        </div>
+    </div>
+
+    <!-- Notification Container -->
+    <div id="notification" class="toast-notification"></div>
+
+    <footer>
+        © 2024 Chrono Store. All rights reserved.
+    </footer>
+
+    <script>
+        document.getElementById('openSidebar').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.add('open');
+            document.getElementById('overlay').classList.add('open');
+        });
+
+        document.getElementById('closeSidebar').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('open');
+        });
+
+        document.getElementById('overlay').addEventListener('click', function () {
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('open');
+        });
+
+        function updateFilterValues() {
+            var minPrice = document.getElementById('min_price').value;
+            var maxPrice = document.getElementById('max_price').value;
+        
+            console.log('Min Price:', minPrice, 'Max Price:', maxPrice);  
+        }
+        
+        function clearFilter() {
+            document.getElementById('min_price').value = "Enter min price";
+            document.getElementById('max_price').value = "Enter max price";
+            updateFilterValues();
+        }
+    
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerText = message;
+            document.body.appendChild(notification);
+            notification.style.display = 'block';
+            setTimeout(() => {
+                notification.style.display = 'none';
+                document.body.removeChild(notification);
+            }, 3000);
+        }
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {         // Add to Cart functionality
+            button.addEventListener('click', function () {
+                const productId = this.dataset.productId;
+                fetch(`/add_to_cart/${productId}/`, {
+                    method: 'GET',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showNotification(data.message, 'success');
+                    } else {
+                        showNotification(data.message, 'error');
+                    }
+                });
+            });
+        });
+
+        function scrollToProducts() {
+            const productSection = document.getElementById("products");
+            if (productSection) {
+                window.scrollTo({
+                    top: productSection.offsetTop, 
+                    behavior: "smooth" 
+                });
+            }
+        }
+
+        function redirectToProductDetail(productId) {
+            window.location.href = `/product/${productId}/`;
+          }
+    </script>
+</body>
+</html>

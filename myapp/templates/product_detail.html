@@ -1,0 +1,405 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ product.name }} Details</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #fff;
+      color: #333;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 5rem auto;
+
+    }
+
+    .main-image {
+      width: 100%;
+      max-height: 450px;
+      object-fit: contain;
+      border-radius: 10px;
+      border: 1px solid #eee;
+      margin-bottom: 1rem;
+    }
+
+    .product-price {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+    }
+
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      border: 1px solid rgb(171, 129, 62);
+      border-radius: 4px;
+      overflow: hidden;
+      width: 120px;
+      margin-right: 1rem;
+      border-radius: 5px;
+    }
+    
+    .quantity-selector button {
+      background-color:rgb(249, 242, 235);
+      border: none;
+      padding: 0.5rem 0.75rem;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: #333;
+    }
+    
+    .quantity-selector input {
+      width: 100%;
+      text-align: center;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+      padding: 0.5rem 0;
+    }
+
+    .btn-add-cart {
+      background-color: rgba(208, 161, 87, 0.979);
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
+      transition: background-color 0.3s ease;
+      cursor: pointer;
+    }
+
+    .btn-add-cart:hover {
+      background-color: rgb(185, 129, 39);
+    }
+
+    .btn-add-cart:disabled {
+      background-color: #aaa;
+      cursor: not-allowed;
+    }
+
+    .product-details-section {
+      margin-top: 2rem;
+      padding-top: 2rem;
+      border-top: 1px solid #ddd;
+    }
+
+    .details-heading {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .details-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2.6rem;
+      
+    }
+
+    .details-item {
+      background-color:rgb(252, 249, 246);
+      border: 1px solid #eee;
+      border-radius: 10px;
+      padding: 1rem;
+      font-size: 1rem;
+    }
+
+    .details-item strong {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.3rem;
+    }
+
+    .dropdown-item:hover{
+      background-color: white;
+    }
+
+    .profile-option:hover{
+        font-weight: bold;
+    }
+
+    .logout-option:hover{
+        font-weight: bold;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding-left: 100px;
+      padding-right: 100px;
+    }
+
+    .nav-link {
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      font-weight: bold;
+    }
+
+    .navbar-brand {
+      margin-right: 60px;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px 10px;
+      font-size: 0.9rem;
+      color: #777;
+      background-color: #f4f4f4;
+      border-top: 1px solid #ddd;
+    }
+
+    .additional-info {
+      margin: 60px 0;               
+      padding: 40px 0px;             
+      border-top: 2px solid #e0e0e0;  
+      border-bottom: 2px solid #e0e0e0;
+    }
+
+    .additional-info h2 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 24px;
+      color: #333;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .info-item {
+      margin-bottom: 30px;            /* Increased spacing between items */
+    }
+
+    .info-item h3 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .info-item p {
+      font-size: 17px;
+      color: #666;
+      line-height: 1.9;
+      margin-bottom: 35px;
+      text-align: justify;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <div class="container-fluid">
+      <a class="navbar-brand" href="#" class="bg-light">
+          <img src="{% static 'images/main-logo.png' %}" alt="Logo" style="height: 40px;">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item"><a class="nav-link" href="{% url 'home_page' %}">Home</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'about' %}">About</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'contact' %}">Contact</a></li>
+          </ul>
+          <ul class="navbar-nav">
+              <li class="nav-item">
+                  <a class="nav-link" href="{% url 'view_cart' %}"><i class="bi bi-cart"></i> Cart</a>
+              </li>
+              <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="profileDropdown" role="button" 
+                  data-bs-toggle="dropdown" aria-expanded="false">
+                      <i class="bi bi-person-circle"></i> Profile
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+                      <li><a class="dropdown-item profile-option" href="{% url 'profile' %}">View Profile</a></li>
+                      <li>
+                          <a class="dropdown-item text-danger logout-option" href="{% url 'logout_view' %}" data-bs-toggle="modal" data-bs-target="#logoutModal">Log Out</a>
+                      </li>
+                  </ul>
+              </li>
+          </ul>
+      </div>
+  </div>
+</nav>
+
+<!-- Logout Confirmation Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              Are you sure you want to log out?
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+              <a href="{% url 'logout_view' %}" class="btn btn-danger">Log Out</a>
+          </div>
+      </div>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container">
+  <div class="row">
+    <!-- Left Column: Single Main Image -->
+    <div class="col-md-4">
+      <img src="{{ product.image.url }}" alt="{{ product.name }}" class="main-image">
+    </div>
+    <!-- Right Column: Product Info -->
+    <div class="col-md-8">
+      <h2 class="mb-2">{{ product.name }}</h2>
+      <div class="product-price"> ${{ product.price }}</div>
+      {% if product.available_quantity > 0 %}
+        <p class="text-success mb-4">In Stock ({{ product.available_quantity }})</p>
+      {% else %}
+        <p class="text-danger mb-4">Out of Stock</p>
+      {% endif %}
+      <!-- Custom Quantity Selector and Add to Cart -->
+      <div class="d-flex align-items-center mb-4">
+        <div class="quantity-selector">
+          <button type="button" id="decrement">−</button>
+          <input type="number" id="quantityInput" value="1" min="1" max="{{ product.available_quantity }}" {% if product.available_quantity == 0 %}disabled{% endif %}>
+          <button type="button" id="increment">+</button>
+        </div>
+        {% if product.available_quantity > 0 %}
+          <button class="btn-add-cart" data-product-id="{{ product.id }}">Add to Cart</button>
+        {% else %}
+          <button class="btn-add-cart" disabled>Out of Stock</button>
+        {% endif %}
+      </div>
+      <p class="mb-5">{{ product.description|truncatewords:50 }}</p>
+    </div>
+  </div>
+  
+  <!-- Product Details Section -->
+  <div class="product-details-section">
+    <div class="details-heading">PRODUCT DETAILS</div>
+      <div class="details-grid">
+        <div class="details-item">
+          <strong>Display Brand</strong>
+          <span>{{ product.brand }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Gender</strong>
+          <span>{{ product.gender }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Glass Material</strong>
+          <span>{{ detail.glass_material }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Dial Color</strong>
+          <span>{{ detail.dial_color }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Warranty</strong>
+          <span>{{ detail.warranty }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Strap Material</strong>
+          <span>{{ detail.strap_material }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Strap Color</strong>
+          <span>{{ detail.strap_color }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Frame Shape</strong>
+          <span>{{ detail.frame_shape }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Water Resistance</strong>
+          <span>{{ detail.water_resistance }}</span>
+        </div>
+        <div class="details-item">
+          <strong>Case Thickness</strong>
+          <span>{{ detail.case_thickness }}</span>
+        </div>
+        <!-- Additional fields as needed -->
+    </div>
+  </div>
+
+  <div class="additional-info">
+    <h2>Experience the Difference</h2>
+    <div class="info-item">
+      <h3>Superior Materials &amp; Design</h3>
+      <p>
+        Meticulously crafted using premium, carefully selected materials, this timepiece embodies a blend of durability and refined elegance. Every element is designed with precision, reflecting our unwavering commitment to quality.
+      </p>
+    </div>
+    <div class="info-item">
+      <h3>Unmatched Versatility &amp; Style</h3>
+      <p>
+        Whether for formal occasions or casual outings, this watch seamlessly elevates your look. Its modern aesthetic and clean lines make it an indispensable accessory that adapts to every lifestyle.
+      </p>
+    </div>
+    <div class="info-item">
+      <h3>Care &amp; Maintenance</h3>
+      <p>
+        To preserve its pristine appearance, gently clean your watch with a soft, lint-free cloth and avoid exposure to harsh chemicals. These simple steps ensure your timepiece remains as impressive as the day you first wore it.
+      </p>
+    </div>
+    <div class="info-item">
+      <h3>Shipping &amp; Warranty</h3>
+      <p>
+        Enjoy complimentary shipping and benefit from a comprehensive warranty that underscores our commitment to excellence. Our dedicated support team is always ready to assist, ensuring a seamless and satisfying ownership experience.
+      </p>
+    </div>
+  </div>
+  
+</div>
+<br><br><br><br><br><br>
+<footer>
+  © 2024 Chrono Store. All rights reserved.
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  const decrementBtn = document.getElementById('decrement');
+  const incrementBtn = document.getElementById('increment');
+  const quantityInput = document.getElementById('quantityInput');
+
+  decrementBtn.addEventListener('click', () => {
+    let currentValue = parseInt(quantityInput.value);
+    const minValue = parseInt(quantityInput.min);
+    if (currentValue > minValue) {
+      quantityInput.value = currentValue - 1;
+    }
+  });
+  incrementBtn.addEventListener('click', () => {
+    let currentValue = parseInt(quantityInput.value);
+    const maxValue = parseInt(quantityInput.max);
+    if (currentValue < maxValue) {
+      quantityInput.value = currentValue + 1;
+    }
+  });
+
+  // Add to Cart functionality
+  document.querySelector('.btn-add-cart')?.addEventListener('click', function () {
+    const productId = this.dataset.productId;
+    const quantity = quantityInput.value || 1;
+    fetch(`/add_to_cart/${productId}/?qty=${quantity}`, {
+      method: 'GET',
+    })
+    .then(response => response.json())
+    .then(data => {
+      alert(data.message || "Item added to cart!");
+    });
+  });
+</script>
+</body>
+</html>
